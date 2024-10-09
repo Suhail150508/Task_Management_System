@@ -78,6 +78,6 @@ class RegisterController extends Controller
             'designation' => $data['designation'],
             'profile_image' => $imagePath, // Save the image path
         ]);
-        return redirect(route('login'));
+        return redirect(route('/login'));
     }
 }

@@ -64,35 +64,35 @@ class UserController extends Controller
        $ticket = User::findOrFail($id);
         return view('tickets.edit', compact('ticket'));
     }
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'subject' => 'required',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            ]);
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'subject' => 'required',
+    //         'description' => 'required',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg',
+    //         ]);
 
-            $update = User::findOrFail($id);
+    //         $update = User::findOrFail($id);
 
-            $update->subject = $request->subject;
-            $update->description = $request->description;
-            $update->status = $request->status;
+    //         $update->subject = $request->subject;
+    //         $update->description = $request->description;
+    //         $update->status = $request->status;
 
-            if ($request->image) {
-                if ($update->image) {
+    //         if ($request->image) {
+    //             if ($update->image) {
 
-                    unlink(public_path('teacher/' . $update->image));
-                }
+    //                 unlink(public_path('teacher/' . $update->image));
+    //             }
 
-                $file = $request->image;
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time() . '.' . $extension;
-                $file->move('teacher', $fileName);
-                $update->image = $fileName;
-            }
-            $update->save();
-            return redirect('customer-ticket');
-    }
+    //             $file = $request->image;
+    //             $extension = $file->getClientOriginalExtension();
+    //             $fileName = time() . '.' . $extension;
+    //             $file->move('teacher', $fileName);
+    //             $update->image = $fileName;
+    //         }
+    //         $update->save();
+    //         return redirect('customer-ticket');
+    // }
 
     public function destroy($id)
     {
