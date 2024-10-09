@@ -70,11 +70,18 @@
                 </div>
             </div>
 
+            @php
+                $users = App\Models\User::all();
+                $projects = App\Models\Project::all();
+            @endphp
+
             <div class="form-group">
                 <label for="assigned_to">Assign To</label>
                 <select class="form-control" id="assigned_to" name="assigned_to" required>
                     <option value="">Select User</option>
-                    <!-- Populate with users dynamically -->
+                    @foreach ($users as  $user)
+                        <option value="{{$user->id}}">{{$user->designation}}</option>
+                    @endforeach
                 </select>
                 <div class="invalid-feedback">
                     Please select a user.
@@ -85,7 +92,10 @@
                 <label for="project_id">Project</label>
                 <select class="form-control" id="project_id" name="project_id" required>
                     <option value="">Select Project</option>
-                    <!-- Populate with projects dynamically -->
+
+                    @foreach ($projects as  $project)
+                        <option value="{{$project->id}}">{{$project->name}}</option>
+                    @endforeach
                 </select>
                 <div class="invalid-feedback">
                     Please select a project.

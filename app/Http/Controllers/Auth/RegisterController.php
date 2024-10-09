@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -78,5 +78,6 @@ class RegisterController extends Controller
             'designation' => $data['designation'],
             'profile_image' => $imagePath, // Save the image path
         ]);
+        return redirect(route('login'));
     }
 }

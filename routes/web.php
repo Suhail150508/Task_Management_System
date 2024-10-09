@@ -29,12 +29,13 @@ Auth::routes();
 
 Route::get('/home', [TaskController::class, 'index'])->name('home');
 
-Route::resource('projects', ProjectController::class);
+Route::resource('projects', ProjectController::class)->middleware('auth');
 Route::resource('tasks', TaskController::class);
+Route::delete('/tasks/{id}', [TaskController::class, 'delete'])->name('tasks.delete');
+
 
 
 Route::get('task-board', [TaskController::class,'taskBoard']);
-Route::resource('tasks', TaskController::class);
 // Route::resource('tasks', TaskController::class)->middleware('auth');
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {

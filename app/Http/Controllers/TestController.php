@@ -20,34 +20,9 @@ class TestController extends Controller
         return view('test.create');
     }
 
-    // public function store(Request $request)
-    // {
-
-    //     // dd('skldjflkdsjfkl;',$request->all());
-    //     $request->validate([
-    //         'name' => 'required',
-    //     ]);
-
-    //     if ($request->hasFile('image')) {
-    //         $filename = time() . '.' . $request->image->extension();
-    //         $request->image->storeAs('images', $filename, 'public');
-    //     } else {
-    //         $filename = null;
-    //     }
-
-    //     $user = Test::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'image' => $filename,
-    //     ]);
-
-    //     return response()->json($user);
-    // }
-
-
     public function store(Request $request)
     {
-        dd('ok',$request);
+        // dd('ok',$request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',

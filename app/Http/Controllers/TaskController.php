@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,7 +12,10 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::with('user')->get();
-        return view('tasks.task_board', compact('tasks'));
+        $pendings = Task::where('status','Pending')->get();
+        $inprogress = Task::where('status','In Progress')->get();
+        $completes = Task::where('status','Completed')->get();
+        return view('tasks.task_board', compact('tasks','pendings','inprogress','completes'));
     }
 
     public function create()
@@ -22,11 +26,16 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $validatedData = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'nullable',
+            'description' => 'nullable',
+            'status' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'due_date' => 'required|date',
             'assigned_to' => 'required|exists:users,id',
+            'project_id' => 'required|exists:projects,id',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -35,29 +44,41 @@ class TaskController extends Controller
             $validatedData['image'] = $path;
         }
 
+        // dd($validatedData);
         Task::create($validatedData);
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
 
-    public function show(Task $task)
+    public function show($id)
     {
-        return view('tasks.show', compact('task'));
+        dd($id);
+        $show = Task::findOrFail($id);
+        return view('tasks.show', compact('show'));
     }
 
-    public function edit(Task $task)
+    public function edit($id)
     {
-        $users = User::all();
-        return view('tasks.edit', compact('task', 'users'));
+        $task_edit = Task::findOrFail($id);
+        return view('tasks.edit', compact('task_edit',));
     }
+    // public function edit(Task $task)
+    // {
+    //     $users = User::all();
+    //     return view('tasks.edit', compact('task', 'users'));
+    // }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'nullable',
+            'description' => 'nullable',
+            'status' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'due_date' => 'required|date',
             'assigned_to' => 'required|exists:users,id',
+            'project_id' => 'required|exists:projects,id',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -65,14 +86,17 @@ class TaskController extends Controller
             $path = $request->file('image')->store('images', 'public');
             $validatedData['image'] = $path;
         }
+
+        $task = Task::findOrFail($id);
 
         $task->update($validatedData);
 
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
-    public function destroy(Task $task)
+    public function destroy($id)
     {
+        $task = Task::findOrFail($id);
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
@@ -82,7 +106,10 @@ class TaskController extends Controller
         // return view('tasks.task_board');
 
         $tasks = Task::with('user')->get();
-        return view('tasks.task_board', compact('tasks'));
+        $pendings = Task::where('status','Pending')->get();
+        $inprogress = Task::where('status','In Progress')->get();
+        $completes = Task::where('status','Completed')->get();
+        return view('tasks.task_board', compact('tasks','pendings','inprogress','completes'));
     }
 
 
