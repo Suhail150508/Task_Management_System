@@ -37,26 +37,25 @@
                                     <table class="table project-list-table table-nowrap align-middle table-borderless">
                                         <thead>
                                             <tr>
-                                                <th scope="col" style="width: 100px">SL</th>
-                                                <th scope="col">Username</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Role</th>
-                                                <th scope="col">Designation</th>
-                                                <th scope="col">Action</th>
+                                                <th scope="col" style="width: 100px;font-size:1rem">SL</th>
+                                                <th scope="col" style="font-size:1rem">Username</th>
+                                                <th scope="col" style="font-size:1rem">image</th>
+                                                <th scope="col" style="font-size:1rem">Designation</th>
+                                                <th scope="col" style="font-size:1rem">Highest task completed number</th>
+                                                <th scope="col" style="font-size:1rem">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($users as $index => $user )
-
+                                            @php
+                                                $task  = App\Models\Task::where('assigned_to',$user->id)->where('status','Completed')->count();
+                                            @endphp
                                                 <tr>
                                                     <td>{{$index + 1}}</td>
                                                     <td>
                                                         <h5 class="text-truncate font-size-14"><a href="javascript: void(0);" class="text-dark">{{$user->name}}</a></h5>
                                                   
                                                     </td>
-                                                    <td> <p class="text-muted mb-0">{{$user->email}}</p>
-                                                    </td>
-                                                    <td>{{$user->role}}</td>
                                                     <td>
                                                         <div class="avatar-group">
                                                             <div class="avatar-group-item">
@@ -73,6 +72,8 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td> <p class="text-muted mb-0">{{$user->designation}}</p></td>
+                                                    <td>{{$task}}</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">

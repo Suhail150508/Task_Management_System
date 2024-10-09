@@ -30,23 +30,31 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
-                            <a href="index.html" class="logo logo-dark">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo.svg" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="" height="17">
-                                </span>
-                            </a>
 
-                            <a href="index.html" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-light.svg" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="" height="19">
-                                </span>
-                            </a>
+                            @if (auth()->user()->role == 'Admin')
+                                
+                                <a href="#" class="logo logo-light">
+                                    <span class="logo-sm">
+                                        <img src="assets/images/logo-light.svg" alt="" height="22">
+                                    </span>
+                                    <span class="logo-lg">
+                                        {{-- <img src="assets/images/logo-light.png" alt="" height="19"> --}}
+                                        <h5 style="color: white;margin-top:2rem">Admin Dashboard</h5>
+                                    </span>
+                                </a>
+                            @endif
+                            @if (auth()->user()->role == 'User')
+                                
+                                <a href="#" class="logo logo-light">
+                                    <span class="logo-sm">
+                                        <img src="assets/images/logo-light.svg" alt="" height="22">
+                                    </span>
+                                    <span class="logo-lg">
+                                        {{-- <img src="assets/images/logo-light.png" alt="" height="19"> --}}
+                                        <h5 style="color: white;margin-top:2rem">User Dashboard</h5>
+                                    </span>
+                                </a>
+                            @endif
                         </div>
 
                         <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
@@ -79,14 +87,16 @@
                         </div>
 
                         @php
-                            $user = auth()->user();
+                            @$user = auth()->user();
                         @endphp
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ Storage::url($user->image) }}" alt="" class="rounded-circle header-profile-user">
-                                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{$user->name}}</span>
+                            @if (@$user->image)
+                                <img src="{{ Storage::url(@$user->image) }}" alt="" class="rounded-circle header-profile-user">
+                            @endif
+                                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{@$user->name}}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -137,7 +147,7 @@
                                         <span key="t-tasks">Tasks</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
-                                        <li><a href="tasks-list.html" key="t-task-list">Task List</a></li>
+                                        {{-- <li><a href="tasks-list.html" key="t-task-list">Task List</a></li> --}}
                                         <li><a href="{{ route('tasks.index') }}" key="t-kanban-board">Task Board</a></li>
                                         <li><a href="{{ route('tasks.create') }}" key="t-create-task">Create Task</a></li>
                                     </ul>
@@ -149,9 +159,8 @@
                                         <span key="t-contacts">Contacts</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
-                                        <li><a href="contacts-grid.html" key="t-user-grid">Users Grid</a></li>
+                                        <li><a href="{{route('users.create')}}" key="t-user-grid">Users Create</a></li>
                                         <li><a href="{{route('users.index')}}" key="t-user-list">Users List</a></li>
-                                        <li><a href="contacts-profile.html" key="t-profile">Profile</a></li>
                                     </ul>
                                 </li>
     
