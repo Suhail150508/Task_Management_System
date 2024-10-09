@@ -19,10 +19,7 @@
 
     </head>
 
-
     <body data-sidebar="dark" data-layout-mode="light">
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
         <!-- Begin page -->
         <div id="layout-wrapper">
@@ -112,9 +109,7 @@
 
                 <div data-simplebar class="h-100">
 
-                    <!--- Sidemenu -->
                     <div id="sidebar-menu">
-                        <!-- Left Menu Start -->
                         @php
                             $user = auth()->user();
                         @endphp
@@ -155,7 +150,7 @@
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
                                         <li><a href="contacts-grid.html" key="t-user-grid">Users Grid</a></li>
-                                        <li><a href="contacts-list.html" key="t-user-list">Users List</a></li>
+                                        <li><a href="{{route('users.index')}}" key="t-user-list">Users List</a></li>
                                         <li><a href="contacts-profile.html" key="t-profile">Profile</a></li>
                                     </ul>
                                 </li>
@@ -203,8 +198,7 @@
 
             <div class="main-content">
                 @yield('content');
-                
-                <!-- End Page-content -->
+ 
                 <!-- Transaction Modal -->
                 <div class="modal fade transaction-detailModal" tabindex="-1" role="dialog" aria-labelledby="transaction-detailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">

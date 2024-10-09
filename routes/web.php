@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::get('/home', [TaskController::class, 'index'])->name('home');
 Route::resource('projects', ProjectController::class)->middleware('auth');
 Route::resource('tasks', TaskController::class);
 Route::delete('/tasks/{id}', [TaskController::class, 'delete'])->name('tasks.delete');
+Route::resource('users', UserController::class);
 
 
 
@@ -49,5 +51,4 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 
 
-Route::resource('users', TestController::class);
 

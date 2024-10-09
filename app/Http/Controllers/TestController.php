@@ -13,7 +13,9 @@ class TestController extends Controller
 {
     public function index()
     {
-        return User::all();
+        $users = User::all();
+        return view('user.list',compact('users'));
+
     }
     public function create()
     {
