@@ -29,28 +29,29 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'name' => 'required',
-        'designation' => 'required',
-        'password' => 'required',
-        'role' => 'required',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg',
+            'name' => 'required',
+            'designation' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'role' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
-
+        
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = bcrypt($request->password); // Hash the password
         $user->designation = $request->designation;
         $user->role = $request->role;
-
+        
         if ($request->hasFile('image')) {
-            $file = $request->image;
+            $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
-            $file->move('teacher', $fileName);
-            $user->image = $fileName;
+            $file->move(public_path('teacher'), $fileName); // Save the image in the 'teacher' directory
+            $user->image = $fileName; // Assign the file name to the user
         }
-
+        
         $user->save();
 
         // Send email to admin
@@ -71,7 +72,7 @@ class UserController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
             ]);
 
-            $update = Ticket::findOrFail($id);
+            $update = User::findOrFail($id);
 
             $update->subject = $request->subject;
             $update->description = $request->description;
@@ -90,7 +91,6 @@ class UserController extends Controller
                 $update->image = $fileName;
             }
             $update->save();
-            Toastr::success('Ticket Updated Successfully', 'Title', ["positionClass" => "toast-top-right"]);
             return redirect('customer-ticket');
     }
 

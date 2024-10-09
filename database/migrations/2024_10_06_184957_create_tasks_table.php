@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('assigned_to');
-            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+            $table->unsignedBigInteger('project_id'); 
             $table->string('image')->nullable();
             $table->timestamps();
         });

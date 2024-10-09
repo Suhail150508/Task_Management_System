@@ -96,7 +96,7 @@
                                                             <div class="avatar-group-item">
                                                                 <a href="javascript: void(0);" class="d-inline-block" value="member-1">
                                                                     {{-- <img src="assets/images/users/avatar-1.jpg" alt="" class="rounded-circle avatar-xs"> --}}
-                                                                    <img src="{{ Storage::url($task->image) }}" alt="" class="rounded-circle avatar-xs">
+                                                                    <img width="50" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$task->image) }}" alt="{{ $customer->image }}">
                                                                 </a>
                                                             </div>
 
