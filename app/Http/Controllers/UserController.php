@@ -42,7 +42,6 @@ class UserController extends Controller
         $user->password = $request->password;
         $user->designation = $request->designation;
         $user->role = $request->role;
-        $user->status = $request->status;
 
         if ($request->hasFile('image')) {
             $file = $request->image;
@@ -51,16 +50,17 @@ class UserController extends Controller
             $file->move('teacher', $fileName);
             $user->image = $fileName;
         }
+
         $user->save();
 
         // Send email to admin
 
-        return redirect('users.index');
+        return redirect()->route('users.index')->with('success', 'User Created successfully.');
     }
 
     public function edit($id)
     {
-       $ticket = Ticket::findOrFail($id);
+       $ticket = User::findOrFail($id);
         return view('tickets.edit', compact('ticket'));
     }
     public function update(Request $request, $id)

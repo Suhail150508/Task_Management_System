@@ -204,10 +204,10 @@ body {
     <section class="hero-section">
       <div class="hero">
         <h2 style="margin-bottom: 3rem "> Task Management System</h2>
-        {{-- <h4 style="margin: 1rem 0rem">Flow the instructions</h4>
+        <h4 style="margin: 1rem 0rem">Project instructions</h4>
         <p>
-            "At first, register a customer and admin. Then, login in by customer id and create a ticket from customer panel or dashboard. Finally, check the other functionalities."
-        </p> --}}
+            "After setting up the environment, the database needs to be seeded. Then, when the admin logs in, they will be redirected to the admin dashboard, and when a user logs in, they will be redirected to the user dashboard."
+        </p>
 
       </div>
 

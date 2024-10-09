@@ -9,4 +9,5 @@
 
 ## About Laravel
 
-<h1> Flow Instruction</h1>
+<h1>Instructions</h1>
+<p> After setting up the environment, the database needs to be seeded. Then, when the admin logs in, they will be redirected to the admin dashboard, and when a user logs in, they will be redirected to the user dashboard.</p>
