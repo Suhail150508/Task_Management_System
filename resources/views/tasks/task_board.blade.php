@@ -54,6 +54,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <a class="dropdown-item" href="{{ route('tasks.edit', $task->id) }}">Edit</a>
+                                                <a class="dropdown-item" href="{{ route('tasks.show', $task->id) }}">View</a>
                                                 <form action="{{ route('tasks.delete', $task->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
@@ -130,6 +131,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <a class="dropdown-item" href="{{ route('tasks.edit', $task->id) }}">Edit</a>
+                                                <a class="dropdown-item" href="{{ route('tasks.show', $task->id) }}">View</a>
                                                 <form action="{{ route('tasks.delete', $task->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
@@ -209,6 +211,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <a class="dropdown-item" href="{{ route('tasks.edit', $task->id) }}">Edit</a>
+                                                <a class="dropdown-item" href="{{ route('tasks.show', $task->id) }}">View</a>
                                                 <form action="{{ route('tasks.delete', $task->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')

@@ -52,7 +52,6 @@ class TaskController extends Controller
 
     public function show($id)
     {
-        dd($id);
         $show = Task::findOrFail($id);
         return view('tasks.show', compact('show'));
     }

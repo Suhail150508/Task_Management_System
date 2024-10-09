@@ -132,10 +132,7 @@
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
                                         <li><a href="{{ route('projects.index' )}}" key="t-p-list">Projects List</a></li>
-                                        <li><a href="projects-overview.html" key="t-p-overview">Project Overview</a></li>
                                         <li><a href="{{ route('projects.create')}}" key="t-create-new">Create Project</a></li>
-                                        <li><a href="{{ route('users.create') }}" key="t-create-new">Test Project</a></li>
-                                        <li><a href="{{ route('users.edit',1) }}" key="t-create-new">Test Project Edit</a></li>
                                     </ul>
                                 </li>
 

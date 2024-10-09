@@ -100,5 +100,12 @@ class ProjectController extends Controller
             'project' => $project
         ], 200);
     }
+
+    public function destroy($id)
+    {
+        $task = Project::findOrFail($id);
+        $task->delete();
+        return redirect()->route('projects.index')->with('success', 'Task deleted successfully.');
+    }
  
 }

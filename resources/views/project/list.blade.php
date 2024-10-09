@@ -55,7 +55,17 @@
                                                             <p class="text-muted mb-0">{{$project->description}}</p>
                                                         </td>
                                                         <td>{{$project->start_date}}</td>
-                                                        <td><span class="badge bg-success">{{$project->status}}</span></td>
+                                                        <td>
+                                                            @if ($project->status == 'Pending')
+                                                                <span class="badge bg-warning">{{$project->status}}</span>         
+                                                            @endif
+                                                            @if ($project->status == 'In progress')
+                                                                <span class="badge bg-info">{{$project->status}}</span>        
+                                                            @endif
+                                                            @if ($project->status == 'Completed')
+                                                                <span class="badge bg-success">{{$project->status}}</span>        
+                                                            @endif
+                                                        </td> 
                                                         <td>
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
@@ -84,7 +94,11 @@
                                                                     <a class="dropdown-item" href="#">Action</a>
                                                                     <a class="dropdown-item" href="{{ route('projects.edit',$project->id) }}">Edit</a>
                                                                     <a class="dropdown-item" href="{{ route('projects.show',$project->id) }}">View</a>
-                                                                    <a class="dropdown-item" href="{{ route('projects.delete',$project->id) }}">View</a>
+                                                                    <form action="{{ route('projects.destroy', $project->id) }}" method="POST" style="display: inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this task?');">Delete</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </td>
