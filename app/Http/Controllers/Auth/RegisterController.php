@@ -79,6 +79,6 @@ class RegisterController extends Controller
             'designation' => $data['designation'],
             'profile_image' => $imagePath, // Save the image path
         ]);
-        Toastr::success('Task created successfully', 'Title', ["positionClass" => "toast-top-center"]);
+        Toastr::success('User created successfully', 'Title', ["positionClass" => "toast-top-center"]);
     }
 }
