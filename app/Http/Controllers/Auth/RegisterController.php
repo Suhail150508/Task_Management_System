@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -78,6 +79,6 @@ class RegisterController extends Controller
             'designation' => $data['designation'],
             'profile_image' => $imagePath, // Save the image path
         ]);
-        return redirect(route('login'));
+        Toastr::success('Task created successfully', 'Title', ["positionClass" => "toast-top-center"]);
     }
 }

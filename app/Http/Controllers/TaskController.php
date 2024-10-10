@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use App\Traits\ImageUpload;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    use ImageUpload;
+
     public function index()
     {
         $tasks = Task::with('user')->get();
@@ -31,23 +35,25 @@ class TaskController extends Controller
             'title' => 'nullable',
             'description' => 'nullable',
             'status' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'due_date' => 'required|date',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
             'assigned_to' => 'required|exists:users,id',
             'project_id' => 'required|exists:projects,id',
             'image' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
-            $validatedData['image'] = $path;
+            $imagePath = ImageUpload::imageUpload($request->file('image'), 'uploads/images');
+            $validatedData['image'] = $imagePath;
         }
 
         // dd($validatedData);
         Task::create($validatedData);
+        Toastr::success('Task created successfully', 'Title', ["positionClass" => "toast-top-center"]);
 
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+
+        // return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
 
     public function show($id)
@@ -80,24 +86,37 @@ class TaskController extends Controller
             'project_id' => 'required|exists:projects,id',
             'image' => 'nullable|image|max:2048',
         ]);
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
-            $validatedData['image'] = $path;
-        }
-
         $task = Task::findOrFail($id);
 
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($task->image) {
+                $oldImagePath = public_path($task->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+    
+            // Upload the new image
+            $imagePath = ImageUpload::imageUpload($request->file('image'), 'uploads/images');
+            $validatedData['image'] = $imagePath;
+        }
+    
         $task->update($validatedData);
+    
+        Toastr::success('Task updated successfully', 'Title', ["positionClass" => "toast-top-center"]);
 
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        return response()->json();
+
     }
 
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
         $task->delete();
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+
+        Toastr::success('Task deleted successfully', 'Title', ["positionClass" => "toast-top-center"]);
+        return redirect()->route('tasks.index');
     }
 
     public function taskBoard()

@@ -145,7 +145,6 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        alert('Task created successfully!');
                         window.location.href = '/tasks';
                     },
                     error: function(xhr) {

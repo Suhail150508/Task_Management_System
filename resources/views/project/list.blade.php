@@ -52,7 +52,6 @@
                                                         <td>{{$index + 1}}</td>
                                                         <td>
                                                             <h5 class="text-truncate font-size-14"><a href="javascript: void(0);" class="text-dark">{{$project->name}}</a></h5>
-                                                            <p class="text-muted mb-0">{{$project->description}}</p>
                                                         </td>
                                                         <td>{{$project->start_date}}</td>
                                                         <td>
@@ -74,8 +73,8 @@
                                                                         {{-- <img src="{{ asset('storage/projects/' . $project->image) }}" alt="" class="rounded-circle avatar-xs"> --}}
 
                                                                         <div class="project">
-                                                                            @if($project->image && \Storage::disk('public')->exists('images/' . $project->image))
-                                                                                <img src="{{ asset('storage/images/' . $project->image) }}" alt="{{ $project->name }}" class="rounded-circle avatar-xs">
+                                                                            @if($project->image )
+                                                                                <img src="{{ asset($project->image) }}" alt="{{ $project->name }}" class="rounded-circle avatar-xs">
                                                                             @else
                                                                                 <p>No image available.</p>
                                                                             @endif

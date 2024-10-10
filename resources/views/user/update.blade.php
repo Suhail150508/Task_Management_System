@@ -81,41 +81,52 @@
 </head>
 <body>
     <div class="form-container">
-        <div class="form-header">
-            <h1>Update a Ticket</h1>
+        <div class="form-header" style="margin-top:4rem">
+            <h1>Create User</h1>
         </div>
-        <form action="{{ route('update', $ticket->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.update', $update->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT') <!-- This line is important for RESTful updates -->
+            @method('PUT') 
             <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" name="subject" class="form-control" value="{{ $ticket->subject }}" required>
+                <label for="subject">User Name</label>
+                <input type="text" name="name" class="form-control" value="{{$update->name}}" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" class="form-control" rows="5" required>{{ $ticket->description }}</textarea>
+                <label for="description">Email</label>
+                <input type="email" name="email" class="form-control" value="{{$update->email}}"></input>
             </div>
+            {{-- <div class="form-group">
+                <label for="description">Password</label>
+                <input type="tesxt" name="password" class="form-control" value="{{$update->password}}" ></input>
+            </div> --}}
 
             <div class="form-group">
-                <label for="status">Status</label>
-                <select name="status" class="form-control" required>
-                    <option value="pending" {{ $ticket->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="Closed" {{ $ticket->status === 'Closed' ? 'selected' : '' }}>Closed</option>
+                <label for="role" class="form-label">Role</label>
+                <select class="form-control" id="role" name="role" value="{{$update->role}}" required>
+                    <option value="">Select role</option>
+                    <option value="Admin" {{ $update->role == 'Admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="User" {{  $update->role == 'User' ? 'selected' : '' }}>User</option>
                 </select>
+            </div>
+        
+
+            <div class="form-group">
+                <label for="description">Designation</label>
+                <input type="tesxt" name="designation" class="form-control" value="{{$update->designation}}" ></input>
             </div>
 
             <div class="form-group">
                 <label for="image">Image</label>
-                <input type="file" name="image" class="form-control">
+                <input type="file" name="image" class="form-control" value="{{$update->image}}">
             </div>
 
-            <button type="submit" class="btn-submit">Update Ticket</button>
+            <button type="submit" class="btn-submit">Update User</button>
         </form>
     </div>
 
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    {!! Toastr::message() !!}
+
 </body>
 </html>

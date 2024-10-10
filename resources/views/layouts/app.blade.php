@@ -17,6 +17,8 @@
         <!-- App Css-->
         <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
+        <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
     </head>
 
     <body data-sidebar="dark" data-layout-mode="light">
@@ -94,7 +96,7 @@
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @if (@$user->image)
-                                <img src="{{ Storage::url(@$user->image) }}" alt="" class="rounded-circle header-profile-user">
+                            <img width="50" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$user->image) }}" alt="{{ $user->image }}">
                             @endif
                                 <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{@$user->name}}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -151,7 +153,7 @@
                                 <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                                         <i class="bx bxs-user-detail"></i>
-                                        <span key="t-contacts">Contacts</span>
+                                        <span key="t-contacts">Users</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
                                         <li><a href="{{route('users.create')}}" key="t-user-grid">Users Create</a></li>
@@ -384,6 +386,10 @@
 
         <!-- App js -->
         <script src="{{asset('assets/js/app.js')}}"></script>
+
+        <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        {!! Toastr::message() !!}
     </body>
 
 </html>

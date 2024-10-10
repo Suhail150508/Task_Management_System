@@ -61,11 +61,11 @@
                                                             <div class="avatar-group-item">
                                                                 <a href="javascript: void(0);" class="d-inline-block">
                                                                     <div class="project">
-                                                                        @if($user->image && \Storage::disk('public')->exists('images/' . $user->image))
-                                                                            <img src="{{ asset('storage/images/' . $user->image) }}" alt="{{ $user->name }}" class="rounded-circle avatar-xs">
+                                                                        @if($user->image)
+                                                                        <img src="{{asset($user->image) }}" alt="" class="rounded-circle avatar-xs">
                                                                         @else
-                                                                            <p>No image available.</p>
-                                                                        @endif
+                                                                            <p>No image</p>
+                                                                        @endif                                                                    
                                                                     </div>
      
                                                                 </a>
@@ -81,6 +81,7 @@
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                 <a class="dropdown-item" href="#">Action</a>
+                                                                <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}">Edit</a>
                                                                 <a class="dropdown-item" href="{{ route('users.show',$user->id) }}">View</a>
                                                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;">
                                                                     @csrf

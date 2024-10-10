@@ -86,7 +86,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Register | Skote - Admin & Dashboard Template</title>
+        <title>Register Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesbrand" name="author" />
@@ -99,6 +99,8 @@
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
     </head>
 
@@ -251,6 +253,12 @@
         
         <!-- App js -->
         <script src="assets/js/app.js"></script>
+
+
+
+        <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        {!! Toastr::message() !!}
 
     </body>
 </html>

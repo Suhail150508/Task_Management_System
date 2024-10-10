@@ -97,8 +97,13 @@
             </div>
             <div class="form-group">
                 <label for="description">Password</label>
-                <input type="tesxt" name="password" class="form-control" required></input>
+                <input type="password" name="password" class="form-control" required></input>
             </div>
+
+            {{-- <div class="mb-3">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" class="form-control" name="password_confirmation" required>    
+            </div> --}}
 
             <div class="form-group">
                 <label for="role" class="form-label">Role</label>
@@ -120,7 +125,7 @@
                 <input type="file" name="image" class="form-control">
             </div>
 
-            <button type="submit" class="btn-submit">Update Ticket</button>
+            <button type="submit" class="btn-submit">Create User</button>
         </form>
     </div>
 

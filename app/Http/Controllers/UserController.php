@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\ImageUpload;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use ImageUpload;
+
     public function index()
     {
         $users = User::where('role','User')->get();
@@ -28,77 +32,71 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+      $validate = $request->validate([
             'name' => 'required',
             'designation' => 'required',
             'email' => 'required|email',
             'password' => 'required',
             'role' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp',
         ]);
         
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password); // Hash the password
-        $user->designation = $request->designation;
-        $user->role = $request->role;
-        
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move(public_path('teacher'), $fileName); // Save the image in the 'teacher' directory
-            $user->image = $fileName; // Assign the file name to the user
+            
+            $imagePath = ImageUpload::imageUpload($request->file('image'), 'upload/image');
+            $validate['image'] = $imagePath;
+            
         }
         
-        $user->save();
+        // dd($validate);
+        User::create($validate);
 
         // Send email to admin
-
-        return redirect()->route('users.index')->with('success', 'User Created successfully.');
+        Toastr::success('User created successfully', 'Title', ["positionClass" => "toast-top-center"]);
+        return redirect()->route('users.index');
+        // return redirect()->route('users.index')->with('success', 'User Created successfully.');
     }
 
     public function edit($id)
     {
-       $ticket = User::findOrFail($id);
-        return view('tickets.edit', compact('ticket'));
+       $update = User::findOrFail($id);
+        return view('user.update', compact('update'));
     }
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'subject' => 'required',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            ]);
+        $update = $request->validate([
+            'name' => 'required',
+            'designation' => 'required',
+            'email' => 'required|email',
+            'role' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+        ]);
 
-            $update = User::findOrFail($id);
+            $user = User::findOrFail($id);
 
-            $update->subject = $request->subject;
-            $update->description = $request->description;
-            $update->status = $request->status;
-
-            if ($request->image) {
-                if ($update->image) {
-
-                    unlink(public_path('teacher/' . $update->image));
+            if ($request->hasFile('image')) {
+                if ($user->image) {
+                    $oldImagePath = public_path($user->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
                 }
-
-                $file = $request->image;
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time() . '.' . $extension;
-                $file->move('teacher', $fileName);
-                $update->image = $fileName;
+                $imagePath = ImageUpload::imageUpload($request->file('image'), 'uploads/images');
+                $update['image'] = $imagePath;
             }
-            $update->save();
-            return redirect('customer-ticket');
+
+            $user->update($update);
+            Toastr::success('User updated successfully', 'Title', ["positionClass" => "toast-top-center"]);
+            return redirect()->route('users.index');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+
+        Toastr::success('Task deleted successfully', 'Title', ["positionClass" => "toast-top-center"]);
+        return redirect()->route('users.index');
 
     }
 }

@@ -86,7 +86,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                alert('Project updated successfully!');
                 window.location.href = "{{ route('projects.index') }}";
             },
             error: function(xhr) {

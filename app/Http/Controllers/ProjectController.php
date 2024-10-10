@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Traits\ImageUpload;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    use ImageUpload;
+
     public function index()
     {
         $projects = Project::all();
@@ -21,8 +25,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date', 
@@ -30,21 +33,12 @@ class ProjectController extends Controller
             'status' => 'required|in:Pending,Inprogress,Completed', 
             'image' => 'image|nullable|max:1999', 
         ]);
-    
-        $filename = null;
+
         if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->image->extension();
-            $request->image->storeAs('images', $filename, 'public');
+            $imagePath = ImageUpload::imageUpload($request->file('image'), 'uploads/images');
+            $validatedData['image'] = $imagePath;
         }
-    
-        $project = Project::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status,
-            'image' => $filename,
-        ]);
+        $project = Project::create($validatedData);
     
         return response()->json([
             'message' => 'Project created successfully!',
@@ -70,7 +64,7 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         // dd( $request->all());
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255', 
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date',  
@@ -81,19 +75,20 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
-        $filename = $project->image;
         if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->image->extension();
-            $request->image->storeAs('images', $filename, 'public');
+            if ($project->image) {
+                $oldImagePath = public_path($project->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+    
+            // Upload the new image
+            $imagePath = ImageUpload::imageUpload($request->file('image'), 'uploads/images');
+            $validatedData['image'] = $imagePath;
         }
-        $project->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status,
-            'image' => $filename,
-        ]);
+    
+        $project->update($validatedData);
 
         return response()->json([
             'message' => 'Project updated successfully!',
@@ -103,9 +98,10 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        $task = Project::findOrFail($id);
-        $task->delete();
-        return redirect()->route('projects.index')->with('success', 'Task deleted successfully.');
+        $project = Project::findOrFail($id);
+        $project->delete();
+        Toastr::success('Projects deleted successfully', 'Title', ["positionClass" => "toast-top-center"]);
+        return redirect()->route('projects.index');
     }
  
 }

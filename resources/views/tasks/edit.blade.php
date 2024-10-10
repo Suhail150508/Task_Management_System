@@ -153,7 +153,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            alert('Task updated successfully!');
+                          
                             window.location.href = '/tasks';
                         },
                         error: function(xhr) {
