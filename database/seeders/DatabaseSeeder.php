@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([
-        //     ProjectSeeder::class,
-        //     TaskSeeder::class,
-        //     // Add other seeders here if needed
-        // ]);
+        $this->call([
+            ProjectSeeder::class,
+            // TaskSeeder::class,
+            // Add other seeders here if needed
+        ]);
     }
 }

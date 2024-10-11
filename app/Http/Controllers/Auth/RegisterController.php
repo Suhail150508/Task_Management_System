@@ -77,8 +77,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
             'designation' => $data['designation'],
-            'profile_image' => $imagePath, // Save the image path
+            'image' => $imagePath, // Save the image path
         ]);
-        Toastr::success('User created successfully', 'Title', ["positionClass" => "toast-top-center"]);
+
+        return redirect(route('login'));
+        // Toastr::success('User created successfully', 'Title', ["positionClass" => "toast-top-center"]);
     }
 }

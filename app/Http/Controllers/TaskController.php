@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\TimeCalculation;
 use App\Models\User;
 use App\Traits\ImageUpload;
 use Brian2694\Toastr\Facades\Toastr;
@@ -15,11 +16,12 @@ class TaskController extends Controller
 
     public function index()
     {
+        $userInfo = TimeCalculation::all();
         $tasks = Task::with('user')->get();
         $pendings = Task::where('status','Pending')->get();
         $inprogress = Task::where('status','In Progress')->get();
         $completes = Task::where('status','Completed')->get();
-        return view('tasks.task_board', compact('tasks','pendings','inprogress','completes'));
+        return view('tasks.task_board', compact('tasks','pendings','inprogress','completes','userInfo'));
     }
 
     public function create()
@@ -124,10 +126,32 @@ class TaskController extends Controller
         // return view('tasks.task_board');
 
         $tasks = Task::with('user')->get();
-        $pendings = Task::where('status','Pending')->get();
-        $inprogress = Task::where('status','In Progress')->get();
-        $completes = Task::where('status','Completed')->get();
-        return view('tasks.task_board', compact('tasks','pendings','inprogress','completes'));
+        return view('tasks.task_board', compact('tasks'));
+    }
+
+    public function logout()
+    {
+        // return view('tasks.task_board');
+        // This will remove all session data and regenerate a new session ID
+        session()->invalidate();
+
+        return redirect()->to('/');
+    }
+
+
+    public function timerStore(Request $request){
+
+        $validatedData = $request->validate([
+            'hours' => 'nullable|integer|min:0',
+            'minutes' => 'nullable|integer|min:0|max:59',
+            'user_id' => 'required|integer|exists:users,id',
+            'task_id' => 'required|integer|exists:tasks,id',
+        ]);
+    
+        // Save the validated data to the database
+        TimeCalculation::create($validatedData);
+        Toastr::success('Time stored successfully', 'Title', ["positionClass" => "toast-top-center"]);
+            return redirect(route('tasks.index'));
     }
 
 

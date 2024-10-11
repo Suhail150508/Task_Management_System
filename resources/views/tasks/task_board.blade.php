@@ -9,9 +9,12 @@
     <!-- Bootstrap Datepicker CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
-
+{{-- <strong>{{$userInfo}}</strong> --}}
     <body data-sidebar="dark" data-layout-mode="light">
-
+        {{-- @php
+            dd($userInfo)
+            
+        @endphp --}}
 
         <div class="page-content">
             <div class="container-fluid">
@@ -19,7 +22,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Task Board</h4>
+                            <h3 class="mb-sm-0 font-size-25" style="text-align: center">Task Board</h3>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
@@ -32,15 +35,17 @@
                     </div>
                 </div>
 
+                {{-- @php
+                    @$user = session()->get('user');
+                @endphp --}}
                 
-                
-                @if ($tasks->count() >= 1)
+                {{-- @if @($tasks->count() >= 1) --}}
                 
                 {{-- <div style="display: flex"> --}}
            
-                    <div class="row">
+                    <div class="row" ty-e>
                             <div class="col-lg-4">
-                                <h4 style="background-color:aquamarine;padding:6px">Pendigns</h4>
+                                <h5 style="background-color:aquamarine;padding:6px">Pendigns</h5>
                                 @foreach ($tasks as $task)
                                     @if ($task->status == 'Pending')
                                         <div class="card">
@@ -82,7 +87,38 @@
                                                                 </div>
                                                                 <div>
                                                                     <h5 class="font-size-16" style="width: 60%; height: 18px; overflow: hidden;"><a href="javascript: void(0);" class="text-dark" id="task-name">{{$task->title}}</a></h5>
-                                                                    <p class="text-muted">Start Date: <span> {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</span></p>
+                                                                    <div style="display: flex;justify-content:space-between " style="margin-top:10px" >
+                                                                        <p class="text-muted">Start: <span style="font-size:.9rem"> {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</span></p>
+                                                                        <div class="dropdown float-end">
+                                                                            <a href="#" class="dropdown-toggle arrow-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-timer-outline m-0 h4" style="color: #aa51c5;"></i>
+                                                                            </a>
+                                                                            <div class="dropdown-menu dropdown-menu-end p-3 shadow-lg rounded" style="width: 250px;">
+                                                                                <form action="{{ route('time') }}" method="POST">
+                                                                                    @csrf
+                                                                                    <h6 class="mb-3 text-primary">Set Expense Time</h6>
+                                                                                    @php
+                                                                                        $user = session()->get('user');
+                                                                                    @endphp
+                                                                                    @if($user)
+                                                                                        <input type="hidden" name="user_id" value="{{ $user['id'] }}">
+                                                                                    @endif
+                                                                                    <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                                                                    <div class="mb-2">
+                                                                                        <label for="hours" class="form-label">Hour</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="hours" name="hours" placeholder="Enter hours" min="0" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label for="minutes" class="form-label">Minute</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="minutes" name="minutes" placeholder="Enter minutes" min="0" max="59" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <button type="submit" class="btn btn-primary btn-sm w-100">Save</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
                                                                 </div>
                                                                 
                                                                 <p class="ps-3 mb-4 text-muted" id="">
@@ -99,7 +135,7 @@
 
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    <p class="text-muted">Due Date: {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</p>
+                                                                    <p class="text-muted">Due: <span style="font-size:.7rem">{{ \Carbon\Carbon::parse($task->due_date)->format('d M, Y') }}</span></p>
                                                                 </div>
                                                             </div>
                                                             
@@ -119,7 +155,7 @@
                             </div>
                             
                             <div class="col-lg-4">
-                                <h4 style="background-color:aquamarine;padding:6px">In Progress</h4>
+                                <h5 style="background-color:aquamarine;padding:6px">In Progress</h5>
                                 @foreach ($tasks as $task)
                                     @if ($task->status == 'In Progress')
                                         <div class="card">
@@ -157,9 +193,42 @@
                                                                     @endif
 
                                                                 </div>
+                                                        
                                                                 <div>
                                                                     <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark" id="task-name">{{$task->title}}</a></h5>
-                                                                    <p class="text-muted">Start Date: {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</p>
+                                                                    <div style="display: flex;justify-content:space-between " style="margin-top:10px">
+                                                                        <p class="text-muted">Start: <span style="font-size:.9rem"> {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</span></p>
+                                                                        <div class="dropdown float-end">
+                                                                            <a href="#" class="dropdown-toggle arrow-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-timer-outline m-0 h4" style="color: #aa51c5;"></i>
+                                                                            </a>
+                                                                            <div class="dropdown-menu dropdown-menu-end p-3 shadow-lg rounded" style="width: 250px;">
+                                                                                <form action="{{ route('time') }}" method="POST">
+                                                                                    @csrf
+                                                                                    <h6 class="mb-3 text-primary">Set Expense Time</h6>
+                                                                                    @php
+                                                                                        $user = session()->get('user');
+                                                                                    @endphp
+                                                                                    @if($user)
+                                                                                        <input type="hidden" name="user_id" value="{{ $user['id'] }}">
+                                                                                    @endif
+                                                                                    <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                                                                    <div class="mb-2">
+                                                                                        <label for="hours" class="form-label">Hour</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="hours" name="hours" placeholder="Enter hours" min="0" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label for="minutes" class="form-label">Minute</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="minutes" name="minutes" placeholder="Enter minutes" min="0" max="59" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <button type="submit" class="btn btn-primary btn-sm w-100">Save</button>
+                                                                                </form>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
                                                                 </div>
                     
                                                                 <p class="list-inine ps-0 mb-4">
@@ -181,7 +250,7 @@
                                                                 </div>
 
                                                                 <div class="text-end">
-                                                                    <p class="text-muted">Due Date: {{ \Carbon\Carbon::parse($task->due_date)->format('d M, Y') }}</p>
+                                                                    <p class="text-muted">Due: <span style="font-size:.7rem">{{ \Carbon\Carbon::parse($task->due_date)->format('d M, Y') }}</span></p>
                                                                 </div>
                                                             </div>
                                                             
@@ -201,7 +270,7 @@
                             </div>
                             
                             <div class="col-lg-4">
-                                <h4 style="background-color:aquamarine;padding:6px">Completed</h4>
+                                <h5 style="background-color:aquamarine;padding:6px">Completed</h5>
                                 @foreach ($tasks as $task)
                                     @if ($task->status == 'Completed')
                                         <div class="card">
@@ -240,7 +309,39 @@
                                                                 </div>
                                                                 <div>
                                                                     <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark" id="task-name">{{$task->title}}</a></h5>
-                                                                    <p class="text-muted">Start Date: {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</p>
+                                                                    <div style="display: flex;justify-content:space-between " style="margin-top:10px">
+                                                                        <p class="text-muted">Start: <span style="font-size:.9rem"> {{ \Carbon\Carbon::parse($task->start_date)->format('d M, Y') }}</span></p>
+                                                                        <div class="dropdown float-end">
+                                                                            <a href="#" class="dropdown-toggle arrow-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-timer-outline m-0 h4" style="color: #aa51c5;"></i>
+                                                                            </a>
+                                                                            <div class="dropdown-menu dropdown-menu-end p-3 shadow-lg rounded" style="width: 250px;">
+                                                                                <form action="{{ route('time') }}" method="POST">
+                                                                                    @csrf
+
+                                                                                    <h6 class="mb-3 text-primary">Set Expense Time</h6>
+                                                                                    @php
+                                                                                    $user = session()->get('user');
+                                                                                    @endphp
+                                                                                    @if($user)
+                                                                                        <input type="hidden" name="user_id" value="{{ $user['id'] }}">
+                                                                                    @endif
+                                                                                    <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                                                                    <div class="mb-2">
+                                                                                        <label for="hours" class="form-label">Hour</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="hours" name="hours" placeholder="Enter hours" min="0" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label for="minutes" class="form-label">Minute</label>
+                                                                                        <input type="number" class="form-control form-control-sm" id="minutes" name="minutes" placeholder="Enter minutes" min="0" max="59" style="width: 100%;">
+                                                                                    </div>
+                                                                                    <button type="submit" class="btn btn-primary btn-sm w-100">Save</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
                                                                 </div>
                                                                 <p>
                                                                     {{$task->description}}
@@ -257,7 +358,7 @@
                                                                 </div>
 
                                                                 <div class="text-end">
-                                                                    <p class="text-muted">Due Date: {{ \Carbon\Carbon::parse($task->due_date)->format('d M, Y') }}</p>
+                                                                    <p class="text-muted">Due: <span style="font-size:.7rem">{{ \Carbon\Carbon::parse($task->due_date)->format('d M, Y') }}</span></p>
                                                                 </div>
                                                             </div>
                                                             
@@ -277,11 +378,11 @@
                         
                         </div>
 
-                    @else{
+                    {{-- @else{
                         
                         <h2>No tasks available.</h2>
                     }
-                    @endif 
+                    @endif  --}}
                 {{-- </div> --}}
 
             </div> 
@@ -315,9 +416,9 @@
                             <div class="form-group">
                                 <label class="mt-3">Task Dates</label>
                                 <div class="input-daterange input-group" id="task-date-inputgroup">
-                                    <input type="text" class="form-control" placeholder="Start Date" name="start_date" id="start_date" />
+                                    <input type="text" class="form-control" placeholder="Start" name="start_date" id="start_date" />
                                     <input type="text" class="form-control" placeholder="End Date" name="end_date" id="end_date" />
-                                    <input type="text" class="form-control" placeholder="Due Date" name="due_date" id="due_date" />
+                                    <input type="text" class="form-control" placeholder="Due" name="due_date" id="due_date" />
                                 </div>
                             </div>
 
@@ -406,7 +507,7 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Status</th>
-                <th>Due Date</th>
+                <th>Due</th>
                 <th>Image</th>
                 <th>Actions</th>
             </tr>

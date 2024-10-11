@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReportControllerr;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
@@ -31,13 +33,16 @@ Auth::routes();
 // Route::get('/home', [TaskController::class, 'index'])->name('home');
 
 Route::resource('projects', ProjectController::class)->middleware('auth');
-Route::resource('tasks', TaskController::class);
-Route::delete('/tasks/{id}', [TaskController::class, 'delete'])->name('tasks.delete');
 Route::resource('users', UserController::class);
+Route::resource('tasks', TaskController::class);
+Route::resource('reports', ReportControllerr::class);
+Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.delete');
+Route::get('/logout', [TaskController::class, 'logout']);
+Route::post('/time-calculation', [TaskController::class, 'timerStore'])->name('time');
 
 
+Route::get('task-board', [TaskController::class, 'taskBoard'])->name('task-board');
 
-Route::get('task-board', [TaskController::class,'taskBoard']);
 // Route::resource('tasks', TaskController::class)->middleware('auth');
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {

@@ -9,7 +9,13 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Datepicker CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.
+    css" rel="stylesheet">
+
+
+    {{-- <link rel="stylesheet" href="path/to/jquery.timepicker.css"> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
     <style>
         .form-container {
@@ -61,7 +67,20 @@
                         Please select a status.
                     </div>
                 </div>
+                {{-- @if ($task_edit->status === 'Completed')
+                    <div class="form-group">
+                        <label for="Expend Time">Expend Time</label>
+                        <input type="number" class="form-control" name="expend_time" placeholder="Enter Expend Time" value="{{ $task_edit->expend_time }}" required>
+                    </div>
+                @endif
 
+                <div class="form-group" id='expendTime' style="display: none">
+                    <label for="Expend Time"> Total Expend Time</label>
+                        <label for="expend_time">Total Expend Time</label>
+                        <input type="text" name="expend_time" id="expend_times" class="form-control" required placeholder="Select time">
+                 
+                </div> --}}
+                
                 <div class="form-group">
                     <label>Task Dates</label>
                     <div class="input-daterange input-group" id="task-date-inputgroup">
@@ -126,8 +145,44 @@
         <!-- Bootstrap Datepicker JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
+        {{-- <script src="path/to/jquery.timepicker.js"></script> --}}
+        {{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
+
         <script>
             $(document).ready(function() {
+
+                // $("#status").change(function(){
+                //     var status = this.value;
+                //     if (status === 'Completed') {
+                //         $("#expendTime").show();
+                //     } else {
+                //         $("#expendTime").hide();
+                //     }
+                // });
+
+
+                // $('#expend_times').timepicker({
+                //     timeFormat: 'H:i',
+                //     interval: 30, // Interval in minutes
+                //     minTime: '0',
+                //     maxTime: '23:59',
+                //     defaultTime: 'now',
+                //     startTime: '0:00',
+                //     dynamic: false,
+                //     dropdown: true,
+                //     scrollbar: true
+                // });
+
+            // flatpickr("#expend_times", {
+            //     enableTime: true,
+            //     noCalendar: true,
+            //     dateFormat: "H:i",
+            //     time_24hr: true,
+            //     minuteIncrement: 1,
+            // });
+
+
+
                 // Initialize the datepicker with the correct format
                 $('.input-daterange').datepicker({
                     format: 'yyyy-mm-dd',

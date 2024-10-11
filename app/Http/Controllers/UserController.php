@@ -52,6 +52,10 @@ class UserController extends Controller
         User::create($validate);
 
         // Send email to admin
+        if($request->register == 'check'){
+            Toastr::success('User Registered successfully', 'Title', ["positionClass" => "toast-top-center"]);
+            return redirect(url('/'));
+        }
         Toastr::success('User created successfully', 'Title', ["positionClass" => "toast-top-center"]);
         return redirect()->route('users.index');
         // return redirect()->route('users.index')->with('success', 'User Created successfully.');

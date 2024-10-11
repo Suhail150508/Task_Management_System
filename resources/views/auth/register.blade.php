@@ -135,8 +135,9 @@
                                     </a>
                                 </div>
                                 <div class="p-2">
-                                    <form class="needs-validation" novalidate method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                                    <form class="needs-validation" novalidate method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
                                         @csrf
+                                        <input type="hidden" name="register" value="check">
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
                                             <input type="text" class="form-control" id="username" placeholder="Enter username" name="name" required>
@@ -161,20 +162,20 @@
                                             </div>       
                                         </div>
                                     
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="password_confirmation" class="form-label">Confirm Password</label>
                                             <input type="password" class="form-control" id="password_confirmation" placeholder="Enter password" name="password_confirmation" required>
                                             <div class="invalid-feedback">
                                                 Please Enter Password
                                             </div>       
                                         </div>
-                                    
+                                     --}}
                                         <!-- Role Select Field -->
                                         <div class="mb-3">
                                             <label for="role" class="form-label">Role</label>
                                             <select class="form-control" id="role" name="role" required>
                                                 <option value="">Select role</option>
-                                                <option value="Admin">Admin</option>
+                                                {{-- <option value="Admin">Admin</option> --}}
                                                 <option value="User">User</option>
                                             </select>
                                             <div class="invalid-feedback">
@@ -194,7 +195,7 @@
                                         <!-- Image Upload Field -->
                                         <div class="mb-3">
                                             <label for="profile_image" class="form-label">Profile Image</label>
-                                            <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/*" required>
+                                            <input type="file" class="form-control" id="profile_image" name="image" accept="image/*" required>
                                             <div class="invalid-feedback">
                                                 Please upload an image.
                                             </div>

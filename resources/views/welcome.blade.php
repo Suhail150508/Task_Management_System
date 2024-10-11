@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Website Homepage HTML and CSS | CodingNepal</title>
+    <title>Responsive Website </title>
     <link rel="stylesheet" href="style.css" />
 
      {{-- toastr --}}
@@ -194,6 +194,9 @@ body {
           <li></li>
         </ul>
         <div class="buttons">
+          {{-- <form action="{{ url('/login') }}" method="POST">
+          <button type="submit">Sign In</button>
+          </form> --}}
             <a href="{{ route('login') }}" class="signin">Sign In</a>
             <a href="{{ route('register') }}" class="signin">Sign Up</a>
         </div>
@@ -215,6 +218,6 @@ body {
 
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    {{-- {!! Toastr::message() !!} --}}
+    {!! Toastr::message() !!}
   </body>
 </html>

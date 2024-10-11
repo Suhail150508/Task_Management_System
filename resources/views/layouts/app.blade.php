@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Dashboard | Skote - Admin & Dashboard Template</title>
+        <title>Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesbrand" name="author" />
@@ -32,12 +32,13 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
-
-                            @if (auth()->user()->role == 'Admin')
-                                
+                            @php
+                                @$user = Session()->get('user');
+                            @endphp
+                            @if ( @$user && @$user->role == 'Admin')
                                 <a href="#" class="logo logo-light">
                                     <span class="logo-sm">
-                                        <img src="assets/images/logo-light.svg" alt="" height="22">
+                                        {{-- <img src="assets/images/logo-light.svg" alt="" height="22"> --}}
                                     </span>
                                     <span class="logo-lg">
                                         {{-- <img src="assets/images/logo-light.png" alt="" height="19"> --}}
@@ -45,8 +46,7 @@
                                     </span>
                                 </a>
                             @endif
-                            @if (auth()->user()->role == 'User')
-                                
+                            @if ( @$user && @$user->role == 'User')
                                 <a href="#" class="logo logo-light">
                                     <span class="logo-sm">
                                         <img src="assets/images/logo-light.svg" alt="" height="22">
@@ -88,22 +88,18 @@
                             </div>
                         </div>
 
-                        @php
-                            @$user = auth()->user();
-                        @endphp
-
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @if (@$user->image)
-                            <img width="50" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$user->image) }}" alt="{{ $user->image }}">
+                            <img width="50" style="border-radius:25%" src="{{asset(@$user->image) }}" alt="">
                             @endif
                                 <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{@$user->name}}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <a class="dropdown-item text-danger" href="3"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+                                <a class="dropdown-item text-danger" href="{{url('/logout')}}"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
                             </div>
                         </div>
 
@@ -117,11 +113,8 @@
                 <div data-simplebar class="h-100">
 
                     <div id="sidebar-menu">
-                        @php
-                            $user = auth()->user();
-                        @endphp
 
-                        @if ( $user && $user->role == 'Admin')
+                        @if ( @$user && @$user->role == 'Admin')
                             
                             <ul class="metismenu list-unstyled" id="side-menu">
                                 <li class="menu-title" key="t-menu">Menu</li>
@@ -145,7 +138,8 @@
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
                                         {{-- <li><a href="tasks-list.html" key="t-task-list">Task List</a></li> --}}
-                                        <li><a href="{{ route('tasks.index') }}" key="t-kanban-board">Task Board</a></li>
+                                        <li><a href="{{ route('reports.index') }}" key="t-kanban-board">Reports</a></li>
+                                        <li><a href="{{ route('task-board') }}" key="t-kanban-board">Task Board</a></li>
                                         <li><a href="{{ route('tasks.create') }}" key="t-create-task">Create Task</a></li>
                                     </ul>
                                 </li>
@@ -164,7 +158,7 @@
 
                             </ul>
                         @endif
-                        @if ( $user && $user->role == 'User')
+                        @if ( @$user && @$user->role == 'User')
                             
                             <ul class="metismenu list-unstyled" id="side-menu">
                                 <li class="menu-title" key="t-menu">Menu</li>
@@ -175,20 +169,20 @@
                                         <span key="t-tasks">Tasks</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
-                                        <li><a href="tasks-list.html" key="t-task-list">Task List</a></li>
-                                        <li><a href="{{url('task-board')}}" key="t-kanban-board">Task Board</a></li>
+                                        <li><a href="{{ route('reports.index') }}" key="t-kanban-board">Task Reports</a></li>
+                                        <li><a href="{{ route('task-board') }}" key="t-kanban-board">Task Board</a></li>
+                                        <li><a href="{{ route('tasks.create') }}" key="t-create-task">Create Task</a></li>
                                     </ul>
                                 </li>
 
                                 <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                                         <i class="bx bxs-user-detail"></i>
-                                        <span key="t-contacts">Contacts</span>
+                                        <span key="t-contacts">User</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
-                                        <li><a href="contacts-grid.html" key="t-user-grid">Users Grid</a></li>
-                                        <li><a href="contacts-list.html" key="t-user-list">Users List</a></li>
-                                        <li><a href="contacts-profile.html" key="t-profile">Profile</a></li>
+                                        <li><a href="{{route('users.index')}}" key="t-user-list">Users List</a></li>
+                                        <li><a href="{{route('users.create')}}" key="t-profile">User Create</a></li>
                                     </ul>
                                 </li>
     
