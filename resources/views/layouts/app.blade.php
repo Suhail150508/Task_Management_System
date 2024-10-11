@@ -126,8 +126,8 @@
                                         <span key="t-projects">Projects</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="false">
-                                        <li><a href="{{ route('projects.index' )}}" key="t-p-list">Projects List</a></li>
-                                        <li><a href="{{ route('projects.create')}}" key="t-create-new">Create Project</a></li>
+                                        <li><a href="{{ route('projects.index' )}}" >Projects List</a></li>
+                                        <li><a href="{{ route('projects.create')}}" >Create Project</a></li>
                                     </ul>
                                 </li>
 

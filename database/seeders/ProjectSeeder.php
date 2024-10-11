@@ -17,6 +17,28 @@ class ProjectSeeder extends Seeder
     {
 
 
+        DB::table('users')->insert([
+            [
+            'name'=>'Admin',
+            'email'=>'admin@gmail.com',
+            'password'=>12345678,
+            'role'=>'Admin',
+            'designation'=>'Laravel Developer',
+            'image' => null,    // Set image value if needed
+            'created_at' => now(),
+            'updated_at' => now(),
+            ],
+            [
+            'name'=>'User',
+            'email'=>'user@gmail.com',
+            'password'=>12345678,
+            'role'=>'User',
+            'designation'=>'PHP Developer',
+            'image' => null,    // Set image value if needed
+            'created_at' => now(),
+            'updated_at' => now(),
+            ],
+        ]);
         DB::table('projects')->insert([
             [
             'name'=>'Project one',

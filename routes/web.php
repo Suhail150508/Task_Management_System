@@ -32,7 +32,7 @@ Auth::routes();
 
 // Route::get('/home', [TaskController::class, 'index'])->name('home');
 
-Route::resource('projects', ProjectController::class)->middleware('auth');
+Route::resource('projects', ProjectController::class);
 Route::resource('users', UserController::class);
 Route::resource('tasks', TaskController::class);
 Route::resource('reports', ReportControllerr::class);
